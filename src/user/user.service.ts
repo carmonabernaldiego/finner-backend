@@ -18,10 +18,6 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
-  findOneByUsername(username: string): Promise<User> {
-    return this.userRepository.findOneBy({ username });
-  }
-
   findOneByEmail(email: string): Promise<User> {
     return this.userRepository.findOneBy({ email });
   }
@@ -30,7 +26,9 @@ export class UserService {
     try {
       return await this.userRepository.save(user);
     } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
+      if (error.code === 'ER_NO_DEFAULT_FOR_FIELD') {
+        throw new ConflictException('Missing required field');
+      } else if (error.code === 'ER_DUP_ENTRY') {
         throw new ConflictException('Email already exists');
       }
       throw error;
