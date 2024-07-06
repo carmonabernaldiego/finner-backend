@@ -28,6 +28,7 @@ export class UserController {
     return this.userService.findOneById(+id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() user: User): Promise<User> {
     return this.userService.create(user);
@@ -41,7 +42,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
+  remove(@Param('id') id: string): Promise<{ message: string }> {
     return this.userService.remove(+id);
   }
 }
