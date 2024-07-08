@@ -23,9 +23,24 @@ export class TransactionController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get('user/:userId')
+  findAllByUserId(@Param('userId') userId: string): Promise<Transaction[]> {
+    return this.transactionService.findAllByUserId(+userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Transaction> {
     return this.transactionService.findOneById(+id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id/user/:userId')
+  findOneByIdAndUserId(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+  ): Promise<Transaction> {
+    return this.transactionService.findOneByIdAndUserId(+id, +userId);
   }
 
   @UseGuards(AuthGuard('jwt'))

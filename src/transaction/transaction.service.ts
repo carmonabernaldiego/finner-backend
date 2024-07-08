@@ -18,9 +18,21 @@ export class TransactionService {
     return this.transactionRepository.find();
   }
 
+  findAllByUserId(user_id: number): Promise<Transaction[]> {
+    return this.transactionRepository.find({
+      where: { user_id },
+    });
+  }
+
   findOneById(id: number): Promise<Transaction> {
     return this.transactionRepository.findOne({
       where: { id },
+    });
+  }
+
+  findOneByIdAndUserId(id: number, user_id: number): Promise<Transaction> {
+    return this.transactionRepository.findOne({
+      where: { id, user_id },
     });
   }
 
