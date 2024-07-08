@@ -2,6 +2,9 @@
 /dist
 /node_modules
 /build
+.env server
+
+clave-app-finner-ec2.pem
 
 # Logs
 logs
