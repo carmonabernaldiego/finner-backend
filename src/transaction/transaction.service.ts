@@ -18,6 +18,23 @@ export class TransactionService {
     return this.transactionRepository.find();
   }
 
+  findAllByUserIdAndSearch(
+    user_id: number,
+    search: string,
+  ): Promise<Transaction[]> {
+    const query = this.transactionRepository
+      .createQueryBuilder('transaction')
+      .where('transaction.user_id = :user_id', { user_id });
+
+    if (search && search.trim()) {
+      query.andWhere('transaction.description LIKE :search', {
+        search: `%${search}%`,
+      });
+    }
+
+    return query.getMany();
+  }
+
   findAllByUserId(user_id: number): Promise<Transaction[]> {
     return this.transactionRepository.find({
       where: { user_id },

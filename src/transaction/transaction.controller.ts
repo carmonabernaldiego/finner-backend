@@ -28,6 +28,15 @@ export class TransactionController {
     return this.transactionService.findAllByUserId(+userId);
   }
 
+  //@UseGuards(AuthGuard('jwt'))
+  @Get(':userId/search/:search')
+  findAllByUserIdAndSearch(
+    @Param('userId') userId: string,
+    @Param('search') search: string,
+  ): Promise<Transaction[]> {
+    return this.transactionService.findAllByUserIdAndSearch(+userId, search);
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Transaction> {
